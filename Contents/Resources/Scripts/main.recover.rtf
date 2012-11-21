@@ -1,0 +1,281 @@
+{\rtf1\ansi\ansicpg932\cocoartf1038\cocoasubrtf360
+{\fonttbl\f0\fnil\fcharset0 Verdana;}
+{\colortbl;\red255\green255\blue255;\red0\green0\blue0;\red64\green128\blue0;\red0\green22\blue176;
+\red0\green0\blue255;\red108\green5\blue211;\red74\green30\blue127;\red68\green21\blue176;\red76\green78\blue78;
+}
+\deftab480
+\pard\pardeftab480\ql\qnatural\pardirnatural
+
+\f0\b\fs24 \cf2 property
+\b0  \cf3 FrontAccess\cf2  : 
+\b \cf4 module
+\b0 \cf2 \
+
+\b property
+\b0  \cf3 FinderSelection\cf2  : 
+\b \cf4 module
+\b0 \cf2 \
+
+\b property
+\b0  \cf3 XFile\cf2  : 
+\b \cf4 module
+\b0 \cf2 \
+
+\b property
+\b0  \cf3 InferiorTerminal\cf2  : 
+\b \cf4 module
+\b0 \cf2 \
+
+\b property
+\b0  \cf3 loader\cf2  : 
+\b \cf4 boot
+\b0 \cf2  (
+\b \cf4 module loader
+\b0 \cf2 ) \cf4 for\cf2  
+\b me
+\b0 \
+\
+
+\b on
+\b0  
+\b \cf5 run
+\b0 \cf2 \
+	
+\b try
+\b0 \
+		\cf3 main\cf2 ()\
+	
+\b on
+\b0  
+\b error
+\b0  \cf3 msg\cf2  \cf5 number\cf2  \cf3 errno\cf2 \
+		
+\b \cf5 activate
+\b0 \cf2 \
+		
+\b \cf4 display alert
+\b0 \cf2  \cf3 msg\cf2  \cf4 message\cf2  "Error Number :" & \cf3 errno\cf2 \
+	
+\b end
+\b0  
+\b try
+\b0 \
+
+\b end
+\b0  
+\b \cf5 run
+\b0 \cf2 \
+\
+
+\b on
+\b0  \cf3 current_app_name\cf2 ()\
+	
+\b set
+\b0  \cf3 a_result\cf2  
+\b to
+\b0  ""\
+	
+\b try
+\b0 \
+		
+\b set
+\b0  \cf3 a_result\cf2  
+\b to
+\b0  \cf6 name\cf2  
+\b of
+\b0  \cf7 current application\cf2 \
+	
+\b on
+\b0  
+\b error
+\b0 \
+		
+\b try
+\b0 \
+			
+\b set
+\b0  \cf3 a_result\cf2  
+\b to
+\b0  \cf8 short name\cf2  
+\b of
+\b0  (
+\b \cf4 info for
+\b0 \cf2  (
+\b \cf4 path to
+\b0 \cf2  \cf7 current application\cf2 ))\
+		
+\b end
+\b0  
+\b try
+\b0 \
+	
+\b end
+\b0  
+\b try
+\b0 \
+	
+\b if
+\b0  \cf3 a_result\cf2  
+\b ends with
+\b0  ".app" 
+\b then
+\b0 \
+		
+\b set
+\b0  \cf3 a_result\cf2  
+\b to
+\b0  
+\i \cf5 text
+\i0 \cf2  1 
+\b thru
+\b0  -5 
+\b of
+\b0  \cf3 a_result\cf2 \
+	
+\b end
+\b0  
+\b if
+\b0 \
+	
+\b return
+\b0  \cf3 a_result\cf2 \
+
+\b end
+\b0  \cf3 current_app_name\cf2 \
+\
+
+\b on
+\b0  \cf3 main\cf2 ()\
+	
+\b set
+\b0  \cf3 a_front\cf2  
+\b to
+\b0  
+\b \cf5 make
+\b0 \cf2  \cf3 FrontAccess\cf2 \
+	\cf9 --set a_front to FrontAccess's make_for_app(application "Emacs")\cf2 \
+	\
+	
+\b set
+\b0  \cf3 front_app_name\cf2  
+\b to
+\b0  \cf3 a_front\cf2 's \cf3 application_name\cf2 ()\
+	
+\b set
+\b0  \cf3 c_app\cf2  
+\b to
+\b0  \cf3 current_app_name\cf2 ()\
+	
+\b if
+\b0  (\cf3 front_app_name\cf2  
+\b is
+\b0  
+\b in
+\b0  \{"Finder", \cf3 c_app\cf2 \}) 
+\b then
+\b0 \
+		
+\b set
+\b0  \cf3 a_picker\cf2  
+\b to
+\b0  \cf3 FinderSelection\cf2 's \cf3 make_for_file\cf2 ()\
+		
+\b set
+\b0  \cf3 a_selection\cf2  
+\b to
+\b0  \cf3 a_picker\cf2 's \cf3 get_selection\cf2 ()\
+		
+\b if
+\b0  \cf3 a_selection\cf2  
+\b is
+\b0  
+\i \cf5 missing value
+\i0 \cf2  
+\b then
+\b0 \
+			
+\b return
+\b0 \
+		
+\b end
+\b0  
+\b if
+\b0 \
+		
+\b set
+\b0  \cf3 a_file\cf2  
+\b to
+\b0  
+\i \cf5 item
+\i0 \cf2  1 
+\b of
+\b0  \cf3 a_selection\cf2 \
+	
+\b else
+\b0 \
+		
+\b set
+\b0  \cf3 a_file\cf2  
+\b to
+\b0  \cf3 a_front\cf2 's \cf3 document_alias\cf2 ()\
+	
+\b end
+\b0  
+\b if
+\b0 \
+	
+\b \cf5 open
+\b0 \cf2  \{\cf3 a_file\cf2 \}\
+
+\b end
+\b0  \cf3 main\cf2 \
+\
+
+\b on
+\b0  
+\b \cf5 open
+\b0 \cf2  \cf3 a_list\cf2 \
+	
+\b repeat
+\b0  
+\b with
+\b0  \cf3 an_item\cf2  
+\b in
+\b0  \cf3 a_list\cf2 \
+		
+\b set
+\b0  \cf3 a_xfile\cf2  
+\b to
+\b0  \cf3 XFile\cf2 's \cf3 make_with\cf2 (\cf3 an_item\cf2 )\
+		
+\b set
+\b0  \cf3 folder_path\cf2  
+\b to
+\b0  \cf6 quoted form\cf2  
+\b of
+\b0  (\cf3 a_xfile\cf2 's \cf3 parent_folder\cf2 ()'s \cf3 posix_path\cf2 ())\
+		
+\b set
+\b0  \cf3 item_name\cf2  
+\b to
+\b0  (\cf3 a_xfile\cf2 's \cf3 item_name\cf2 ())\
+		
+\b set
+\b0  \cf3 command_text\cf2  
+\b to
+\b0  "cd " & \cf3 folder_path\cf2  & \cf6 return\cf2  & "chmod +x " & \cf6 quoted form\cf2  
+\b of
+\b0  \cf3 item_name\cf2  & \cf6 return\cf2  & \cf6 quoted form\cf2  
+\b of
+\b0  ("./" & \cf3 item_name\cf2 )\
+		\cf9 --log command_text\cf2 \
+		\cf3 InferiorTerminal\cf2 's \cf3 do\cf2 (\cf3 command_text\cf2 )\
+	
+\b end
+\b0  
+\b repeat
+\b0 \
+
+\b end
+\b0  
+\b \cf5 open}
